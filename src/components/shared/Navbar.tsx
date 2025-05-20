@@ -7,12 +7,8 @@ import { useRouter } from "next/navigation";
 import { logoutUser } from "@/services/auth";
 
 
-
 export default function Navbar() {
-
     const { user, setIsLoading, isLoading } = useUser();
-    console.log("in navbar", user);
-    // const pathname = usePathname();
     const router = useRouter();
 
     const handlelogout = () => {
@@ -22,7 +18,7 @@ export default function Navbar() {
     };
 
     return (
-        <header className="border-b w-full">
+        <header className="border-b w-full bg-slate-300">
             <div className="container flex justify-between items-center mx-auto h-16 px-3">
 
                 <Link href="/" className="text-2xl font-black flex items-center">
