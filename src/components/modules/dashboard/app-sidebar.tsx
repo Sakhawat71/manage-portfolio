@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/sidebar"
 import { HomeIcon } from "lucide-react"
 
-const navData = [
+export const navData = [
     {
         title: "Main Navigation",
         items: [
@@ -27,15 +27,32 @@ const navData = [
             },
             {
                 label: "Projects",
-                href: "/dashboard/project",
+                href: "/dashboard/projects",
             },
             {
                 label: "Skills",
                 href: "/dashboard/skills",
             },
+            {
+                label: "Contacts",
+                href: "/dashboard/contacts",
+            },
+            {
+                label: "Blogs",
+                href: "/dashboard/blogs",
+            },
+            {
+                label: "Educations",
+                href: "/dashboard/educations",
+            },
+            {
+                label: "Experiences",
+                href: "/dashboard/experiences",
+            },
         ],
     },
 ]
+
 
 export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
     const pathname = usePathname()
