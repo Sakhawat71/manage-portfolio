@@ -18,13 +18,16 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from "@/component
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { loginSchema } from "./loginValidation"
+import { loginUser } from "@/services/auth"
+import toast from "react-hot-toast"
+import { useRouter } from "next/navigation"
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
-
   const form = useForm({
     resolver: zodResolver(loginSchema),
   });
@@ -35,9 +38,14 @@ export function LoginForm({
   // Form submission handler
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     try {
-      console.log(data);
-
-
+      const res = await loginUser(data);
+      console.log(res);
+      if (res?.success) {
+        toast.success(res?.message);
+        router.push("/dashboard");
+      } else {
+        toast.error(res?.message);
+      }
     } catch (err: any) {
       console.error(err);
 
@@ -48,7 +56,7 @@ export function LoginForm({
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
         <CardHeader>
-          <CardTitle className="text-2xl">Login</CardTitle>
+          <CardTitle className="text-3xl text-center">Login</CardTitle>
           <CardDescription>
             Enter your email below to login to your account
           </CardDescription>
