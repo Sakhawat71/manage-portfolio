@@ -10,67 +10,83 @@ import {
     DialogFooter,
     DialogClose
 } from "@/components/ui/dialog"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import { TrashIcon } from "lucide-react"
+import { cn } from "@/lib/utils"
 
 interface IMessage {
     id: string
     name: string
     email: string
     message: string
+    createdAt?: string
 }
 
 interface MessageListProps {
     messages: IMessage[]
+    onDelete?: (id: string) => void
 }
 
-const MessageList = ({ messages }: MessageListProps) => {
+const MessageList = ({ messages, onDelete }: MessageListProps) => {
     const [selectedMessage, setSelectedMessage] = useState<IMessage | null>(null)
     const [isOpen, setIsOpen] = useState(false)
 
-    const handleOpen = (msg: IMessage) => {
+    const openModal = (msg: IMessage) => {
         setSelectedMessage(msg)
         setIsOpen(true)
     }
 
-    const handleClose = () => {
-        setIsOpen(false)
-        setSelectedMessage(null)
-    }
-
     return (
         <>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="rounded-md border divide-y">
                 {messages.map((msg) => (
-                    <Card key={msg.id} className="p-4 flex flex-col justify-between">
-                        <CardHeader className="pb-2">
-                            <CardTitle className="text-lg">{msg.name}</CardTitle>
-                            <p className="text-sm text-muted-foreground">{msg.email}</p>
-                        </CardHeader>
-                        <CardContent className="flex flex-col gap-2">
-                            <p className="text-gray-700 truncate">{msg.message}</p>
-                            <Button variant="outline" onClick={() => handleOpen(msg)}>
-                                View Details
+                    <div
+                        key={msg.id}
+                        onClick={() => openModal(msg)}
+                        className={cn(
+                            "group cursor-pointer flex items-center justify-between p-4 hover:bg-muted/50 transition-colors bg-white rounded-none sm:rounded-xl"
+                        )}
+                    >
+                        <div className="flex flex-col sm:flex-row sm:items-center gap-2 w-full sm:justify-between">
+                            <div className="flex-1 min-w-0">
+                                <p className="font-semibold text-base truncate">{msg.name} — {msg.email}</p>
+                                <p className="text-sm ">{msg.message.slice(0, 100)}</p>
+                            </div>
+
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                onClick={(e) => {
+                                    e.stopPropagation()
+                                    onDelete?.(msg.id)
+                                }}
+                                className="text-red-500 hover:text-red-600"
+                            >
+                                <TrashIcon className="w-4 h-4" />
                             </Button>
-                        </CardContent>
-                    </Card>
+                        </div>
+                    </div>
                 ))}
             </div>
 
-            <Dialog open={isOpen} onOpenChange={setIsOpen}>
-                <DialogContent className="max-w-md">
-                    <DialogHeader>
-                        <DialogTitle>{selectedMessage?.name}</DialogTitle>
-                        <DialogDescription>{selectedMessage?.email}</DialogDescription>
-                    </DialogHeader>
-                    <div className="py-4">{selectedMessage?.message}</div>
-                    <DialogFooter>
-                        <DialogClose asChild>
-                            <Button variant="outline">Close</Button>
-                        </DialogClose>
-                    </DialogFooter>
-                </DialogContent>
-            </Dialog>
+            {selectedMessage && (
+                <Dialog open={isOpen} onOpenChange={setIsOpen}>
+                    <DialogContent className="max-w-lg w-[95vw]">
+                        <DialogHeader>
+                            <DialogTitle>{selectedMessage.name}</DialogTitle>
+                            <DialogDescription>{selectedMessage.email}</DialogDescription>
+                        </DialogHeader>
+                        <div className="py-4 whitespace-pre-wrap">
+                            {selectedMessage.message}
+                        </div>
+                        <DialogFooter>
+                            <DialogClose asChild>
+                                <Button variant="outline">Close</Button>
+                            </DialogClose>
+                        </DialogFooter>
+                    </DialogContent>
+                </Dialog>
+            )}
         </>
     )
 }
