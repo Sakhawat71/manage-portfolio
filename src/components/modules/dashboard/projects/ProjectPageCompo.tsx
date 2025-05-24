@@ -4,9 +4,8 @@ import { getAllProjects } from '@/services/project';
 import React from 'react';
 
 const ProjectPage = async () => {
-    
+
     const projects = await getAllProjects();
-    // console.log(projects);
     const handleDeleteProject = async (id : string) => {
 
     };
@@ -17,11 +16,11 @@ const ProjectPage = async () => {
 
     return (
         <div>
-            <h4 className='text-center'>Manage Projects</h4>
+            <h4>Projects page</h4>
             <ProjectsTable
                 projects={projects?.data}
-                // onEdit={(id) => updateProject(id)}
-                // onDelete={(id) => handleDeleteProject(id)}
+                onEdit={(id) => updateProject(id)}
+                onDelete={(id) => handleDeleteProject(id)}
             />
 
         </div>
