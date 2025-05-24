@@ -8,7 +8,7 @@ const DeshboardPage = async () => {
     // if(!user){
     //     router.push('/')
     // }
-    console.log(user);
+    // console.log(user);
 
     return (
         <div>
