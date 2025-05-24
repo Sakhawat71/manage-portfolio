@@ -1,7 +1,13 @@
+import { EducationsTable } from '@/components/modules/dashboard/education/EducationTable';
+import { getAllEducations } from '@/services/education';
 import Link from 'next/link';
 import React from 'react';
 
-const EducationsPage = () => {
+const EducationsPage = async() => {
+
+    const education = await getAllEducations();
+    console.log(education);
+
     return (
         <div>
             <div className="w-full bg-slate-300 shadow-sm px-4 py-3 flex items-center justify-between rounded-md border">
@@ -15,6 +21,7 @@ const EducationsPage = () => {
                     Add New Education
                 </Link>
             </div>
+            <EducationsTable educations={education.data} />
         </div>
     );
 };
