@@ -15,47 +15,66 @@ import {
     SidebarMenuItem,
     SidebarRail,
 } from "@/components/ui/sidebar"
-import { HomeIcon } from "lucide-react"
+import { ChevronDown, ChevronRight, HomeIcon } from "lucide-react"
 
 export const navData = [
     {
         title: "Main Navigation",
+        collapsible: false,
         items: [
-            {
-                label: "Dashboard",
-                href: "/dashboard",
-            },
-            {
-                label: "Projects",
-                href: "/dashboard/projects",
-            },
-            {
-                label: "Skills",
-                href: "/dashboard/skills",
-            },
-            {
-                label: "Contacts",
-                href: "/dashboard/contacts",
-            },
-            {
-                label: "Blogs",
-                href: "/dashboard/blogs",
-            },
-            {
-                label: "Educations",
-                href: "/dashboard/educations",
-            },
-            {
-                label: "Experiences",
-                href: "/dashboard/experiences",
-            },
+            { label: "Dashboard", href: "/dashboard" },
+            { label: "Contacts", href: "/dashboard/contacts" },
+        ],
+    },
+    {
+        title: "Project Management",
+        collapsible: true,
+        items: [
+            { label: "Projects", href: "/dashboard/projects" },
+            { label: "Add Project", href: "/dashboard/projects/add" },
+        ],
+    },
+    {
+        title: "Skills Management",
+        collapsible: true,
+        items: [
+            { label: "Skills", href: "/dashboard/skills" },
+            { label: "Add Project", href: "/dashboard/projects/add" },
+        ],
+    },
+    {
+        title: "Blogs Management",
+        collapsible: true,
+        items: [
+            { label: "Blogs", href: "/dashboard/blogs" },
+            { label: "Add Project", href: "/dashboard/projects/add" },
+        ],
+    },
+    {
+        title: "Educations Management",
+        collapsible: true,
+        items: [
+            { label: "Educations", href: "/dashboard/educations" },
+            { label: "Add Project", href: "/dashboard/projects/add" },
+        ],
+    },
+    {
+        title: "Experiences Management",
+        collapsible: true,
+        items: [
+            { label: "Experiences", href: "/dashboard/experiences" },
+            { label: "Add Project", href: "/dashboard/projects/add" },
         ],
     },
 ]
 
-
 export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
     const pathname = usePathname()
+    const [openGroup, setOpenGroup] = React.useState<string | null>(null)
+
+    const toggleGroup = (title: string) => {
+        setOpenGroup(prev => (prev === title ? null : title))
+    }
 
     return (
         <Sidebar {...props} className="px-5">
@@ -66,25 +85,42 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
             </SidebarHeader>
 
             <SidebarContent>
-                {navData.map((group) => (
-                    <SidebarGroup key={group.title}>
-                        <SidebarGroupLabel>{group.title}</SidebarGroupLabel>
-                        <SidebarGroupContent>
-                            <SidebarMenu>
-                                {group.items.map((item) => {
-                                    const isActive = pathname === item.href
-                                    return (
-                                        <SidebarMenuItem key={item.href}>
-                                            <SidebarMenuButton asChild isActive={isActive}>
-                                                <Link href={item.href}>{item.label}</Link>
-                                            </SidebarMenuButton>
-                                        </SidebarMenuItem>
-                                    )
-                                })}
-                            </SidebarMenu>
-                        </SidebarGroupContent>
-                    </SidebarGroup>
-                ))}
+                {navData.map((group) => {
+                    const isCollapsible = group.collapsible
+                    const isOpen = openGroup === group.title
+
+                    return (
+                        <SidebarGroup key={group.title}>
+                            <SidebarGroupLabel
+                                onClick={() => isCollapsible && toggleGroup(group.title)}
+                                className={`flex items-center justify-between cursor-pointer ${isCollapsible ? "hover:text-primary" : ""}`}
+                            >
+                                {group.title}
+                                {isCollapsible && (
+                                    isOpen ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />
+                                )}
+                            </SidebarGroupLabel>
+
+                            {/* Conditionally render content if not collapsible or open */}
+                            {(!isCollapsible || isOpen) && (
+                                <SidebarGroupContent>
+                                    <SidebarMenu>
+                                        {group.items.map((item) => {
+                                            const isActive = pathname === item.href
+                                            return (
+                                                <SidebarMenuItem key={item.href}>
+                                                    <SidebarMenuButton asChild isActive={isActive}>
+                                                        <Link href={item.href}>{item.label}</Link>
+                                                    </SidebarMenuButton>
+                                                </SidebarMenuItem>
+                                            )
+                                        })}
+                                    </SidebarMenu>
+                                </SidebarGroupContent>
+                            )}
+                        </SidebarGroup>
+                    )
+                })}
             </SidebarContent>
 
             <SidebarRail />

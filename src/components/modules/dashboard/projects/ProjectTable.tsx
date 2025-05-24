@@ -41,55 +41,51 @@ export const ProjectsTable = ({
     // onDelete
 }: ProjectsTableProps) => {
     return (
-        <Table>
-            <TableHeader>
-                <TableRow>
-                    <TableHead>Image</TableHead>
-                    <TableHead>Title</TableHead>
-                    <TableHead>Tech Stack</TableHead>
-                    <TableHead>Actions</TableHead>
-                </TableRow>
-            </TableHeader>
-            <TableBody>
-                {projects.map((project) => (
-                    <TableRow key={project.id}>
-                        {/* Image Column */}
-                        <TableCell>
-                            <Image
-                                src={project.image}
-                                alt={project.title}
-                                width={50}
-                                height={50}
-                                className="rounded-md object-cover"
-                            />
-                        </TableCell>
-                        <TableCell className="font-medium">{project.title}</TableCell>
-                        {/* First 3 tech stacks */}
-                        <TableCell className="space-x-1">
-                            {project.techStack.slice(0, 3).map((tech, index) => (
-                                <span
-                                    key={index}
-                                    className="bg-gray-200 text-xs px-2 py-1 rounded"
-                                >
-                                    {tech}
-                                </span>
-                            ))}
-                        </TableCell>
-                        <TableCell className="flex gap-2">
-                            <Button size="icon" variant="ghost"
-                            // onClick={() => onEdit(project.id)}
-                            >
-                                <PencilIcon className="w-4 h-4" />
-                            </Button>
-                            <Button size="icon" variant="ghost"
-                            // onClick={() => onDelete(project.id)}
-                            >
-                                <TrashIcon className="w-4 h-4 text-red-500" />
-                            </Button>
-                        </TableCell>
+        <div className="w-full overflow-x-auto">
+            <Table className="">
+                <TableHeader>
+                    <TableRow>
+                        <TableHead>Image</TableHead>
+                        <TableHead>Title</TableHead>
+                        <TableHead>Tech Stack</TableHead>
+                        <TableHead>Actions</TableHead>
                     </TableRow>
-                ))}
-            </TableBody>
-        </Table>
+                </TableHeader>
+                <TableBody>
+                    {projects.map((project) => (
+                        <TableRow key={project.id}>
+                            <TableCell>
+                                <Image
+                                    src={project.image}
+                                    alt={project.title}
+                                    width={50}
+                                    height={50}
+                                    className="rounded-md object-cover"
+                                />
+                            </TableCell>
+                            <TableCell className="font-medium">{project.title}</TableCell>
+                            <TableCell className="space-x-1">
+                                {project.techStack.slice(0, 3).map((tech, index) => (
+                                    <span
+                                        key={index}
+                                        className="bg-gray-200 text-xs px-2 py-1 rounded"
+                                    >
+                                        {tech}
+                                    </span>
+                                ))}
+                            </TableCell>
+                            <TableCell className="flex gap-2">
+                                <Button size="icon" variant="ghost">
+                                    <PencilIcon className="w-4 h-4" />
+                                </Button>
+                                <Button size="icon" variant="ghost">
+                                    <TrashIcon className="w-4 h-4 text-red-500" />
+                                </Button>
+                            </TableCell>
+                        </TableRow>
+                    ))}
+                </TableBody>
+            </Table>
+        </div>
     )
 }

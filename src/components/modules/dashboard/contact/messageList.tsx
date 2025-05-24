@@ -39,7 +39,7 @@ const MessageList = ({ messages, onDelete }: MessageListProps) => {
     return (
         <>
             <div className="rounded-md border divide-y">
-                {messages.map((msg) => (
+                {messages?.map((msg) => (
                     <div
                         key={msg.id}
                         onClick={() => openModal(msg)}
