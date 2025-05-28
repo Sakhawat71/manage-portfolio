@@ -6,7 +6,7 @@ import React from 'react';
 const EducationsPage = async() => {
 
     const education = await getAllEducations();
-    console.log(education);
+    // console.log(education);
 
     return (
         <div>
