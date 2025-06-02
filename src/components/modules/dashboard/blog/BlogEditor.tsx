@@ -30,4 +30,4 @@ export default function BlogEditor({ onChange }: { onChange: (content: string) =
             <EditorContent editor={editor} />
         </div>
     );
-}
+};

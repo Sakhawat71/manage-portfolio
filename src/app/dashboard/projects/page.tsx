@@ -8,13 +8,13 @@ const ProjectPage = async () => {
 
     const projects = await getAllProjects();
     // console.log(projects);
-    const handleDeleteProject = async (id: string) => {
+    // const handleDeleteProject = async (id: string) => {
 
-    };
+    // };
 
-    const updateProject = async (id: string) => {
+    // const updateProject = async (id: string) => {
 
-    };
+    // };
 
     return (
         <div>

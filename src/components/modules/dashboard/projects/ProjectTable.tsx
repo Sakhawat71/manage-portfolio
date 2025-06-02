@@ -52,7 +52,7 @@ export const ProjectsTable = ({
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {projects.map((project) => (
+                    {projects?.map((project) => (
                         <TableRow key={project.id}>
                             <TableCell>
                                 <Image
