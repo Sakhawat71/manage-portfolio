@@ -7,7 +7,8 @@ import Link from "@tiptap/extension-link";
 import Image from "@tiptap/extension-image";
 import Highlight from "@tiptap/extension-highlight";
 import Underline from "@tiptap/extension-underline";
-import { createLowlight } from "lowlight"; // Updated import
+import TextAlign from "@tiptap/extension-text-align";
+import { createLowlight } from "lowlight";
 import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
 import css from "highlight.js/lib/languages/css";
 import js from "highlight.js/lib/languages/javascript";
@@ -26,17 +27,23 @@ lowlight.register("ts", ts);
 
 interface BlogEditorProps {
     onChange: (html: string, json: any) => void;
+    initialContent?: string;
 }
 
-export default function BlogEditor({ onChange }: BlogEditorProps) {
+export default function BlogEditor({ onChange, initialContent = "" }: BlogEditorProps) {
     const editor = useEditor({
         extensions: [
             StarterKit.configure({
-                codeBlock: false, // Disable the default code block
+                codeBlock: false,
             }),
             CodeBlockLowlight.configure({
                 lowlight,
-                defaultLanguage: 'plaintext', // Default language if none specified
+                defaultLanguage: "plaintext",
+            }),
+            TextAlign.configure({
+                types: ["heading", "paragraph"],
+                alignments: ["left", "center", "right", "justify"],
+                defaultAlignment: "left",
             }),
             Link.configure({
                 openOnClick: false,
@@ -57,19 +64,36 @@ export default function BlogEditor({ onChange }: BlogEditorProps) {
                 placeholder: "Start writing your blog here...",
             }),
         ],
-        content: "",
+        content: initialContent,
         onUpdate({ editor }) {
             onChange(editor.getHTML(), editor.getJSON());
         },
         editorProps: {
             attributes: {
                 class: "prose dark:prose-invert prose-sm sm:prose-base lg:prose-lg xl:prose-xl focus:outline-none min-h-[300px] p-4",
+                style: `
+          h1 { border-left: 4px solid #3b82f6; padding-left: 0.75rem; margin: 1rem 0; }
+          h2 { border-left: 3px solid #3b82f6; padding-left: 0.75rem; margin: 0.8rem 0; }
+          ul, ol { 
+            background-color: rgba(59, 130, 246, 0.05); 
+            padding: 0.5rem 1.5rem; 
+            border-radius: 0.5rem;
+            margin: 0.5rem 0;
+          }
+          [data-text-align="center"] { text-align: center }
+          [data-text-align="right"] { text-align: right }
+          [data-text-align="justify"] { text-align: justify }
+        `,
             },
         },
     });
 
     if (!editor) {
-        return <div className="border rounded-lg p-4 min-h-[300px] bg-gray-50 dark:bg-gray-800">Loading editor...</div>;
+        return (
+            <div className="border rounded-lg p-4 min-h-[300px] bg-gray-50 dark:bg-gray-800 animate-pulse">
+                Loading editor...
+            </div>
+        );
     }
 
     return (

@@ -1,4 +1,3 @@
-// Toolbar.tsx
 "use client";
 
 import { Editor } from "@tiptap/react";
@@ -10,7 +9,7 @@ import {
     List,
     ListOrdered,
     Link2,
-    Image,
+    Image as ImageIcon,
     Code,
     Heading1,
     Heading2,
@@ -18,11 +17,16 @@ import {
     Undo,
     Redo,
     Code2,
+    ChevronDown,
+    Highlighter,
+    AlignLeft,
+    AlignCenter,
+    AlignRight,
+    AlignJustify,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
 
 interface ToolbarProps {
     editor: Editor | null;
@@ -44,9 +48,7 @@ export function Toolbar({ editor }: ToolbarProps) {
         const previousUrl = editor.getAttributes("link").href;
         const url = window.prompt("URL", previousUrl);
 
-        if (url === null) {
-            return;
-        }
+        if (url === null) return;
 
         if (url === "") {
             editor.chain().focus().extendMarkRange("link").unsetLink().run();
@@ -58,7 +60,7 @@ export function Toolbar({ editor }: ToolbarProps) {
 
     return (
         <div className="flex flex-wrap items-center gap-1 p-1 border rounded-lg bg-background">
-            {/* Text formatting */}
+            {/* Text Formatting */}
             <Button
                 type="button"
                 variant={editor.isActive("bold") ? "secondary" : "ghost"}
@@ -104,16 +106,17 @@ export function Toolbar({ editor }: ToolbarProps) {
                 size="sm"
                 onClick={() => editor.chain().focus().toggleHighlight().run()}
             >
-                <div className="h-4 w-4 bg-yellow-300 rounded-sm" />
+                <Highlighter className="h-4 w-4" />
             </Button>
 
-            <div className="h-6 border-l mx-1" />
+            <Separator orientation="vertical" className="h-6 mx-1" />
 
             {/* Headings */}
             <Popover>
                 <PopoverTrigger asChild>
                     <Button type="button" variant="ghost" size="sm">
                         <Heading1 className="h-4 w-4" />
+                        <ChevronDown className="h-3 w-3 ml-1" />
                     </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-48 p-2">
@@ -139,6 +142,47 @@ export function Toolbar({ editor }: ToolbarProps) {
                     </Button>
                 </PopoverContent>
             </Popover>
+
+            {/* Text Alignment */}
+            <Separator orientation="vertical" className="h-6 mx-1" />
+
+            <Button
+                type="button"
+                variant={editor.isActive({ textAlign: "left" }) ? "secondary" : "ghost"}
+                size="sm"
+                onClick={() => editor.chain().focus().setTextAlign("left").run()}
+            >
+                <AlignLeft className="h-4 w-4" />
+            </Button>
+
+            <Button
+                type="button"
+                variant={editor.isActive({ textAlign: "center" }) ? "secondary" : "ghost"}
+                size="sm"
+                onClick={() => editor.chain().focus().setTextAlign("center").run()}
+            >
+                <AlignCenter className="h-4 w-4" />
+            </Button>
+
+            <Button
+                type="button"
+                variant={editor.isActive({ textAlign: "right" }) ? "secondary" : "ghost"}
+                size="sm"
+                onClick={() => editor.chain().focus().setTextAlign("right").run()}
+            >
+                <AlignRight className="h-4 w-4" />
+            </Button>
+
+            <Button
+                type="button"
+                variant={editor.isActive({ textAlign: "justify" }) ? "secondary" : "ghost"}
+                size="sm"
+                onClick={() => editor.chain().focus().setTextAlign("justify").run()}
+            >
+                <AlignJustify className="h-4 w-4" />
+            </Button>
+
+            <Separator orientation="vertical" className="h-6 mx-1" />
 
             {/* Lists */}
             <Button
@@ -168,16 +212,59 @@ export function Toolbar({ editor }: ToolbarProps) {
                 <Quote className="h-4 w-4" />
             </Button>
 
+            <Separator orientation="vertical" className="h-6 mx-1" />
+
+            {/* Code Blocks */}
+            <Popover>
+                <PopoverTrigger asChild>
+                    <Button
+                        type="button"
+                        variant={editor.isActive("codeBlock") ? "secondary" : "ghost"}
+                        size="sm"
+                    >
+                        <Code2 className="h-4 w-4 mr-1" />
+                        <ChevronDown className="h-3 w-3" />
+                    </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-48 p-2 grid grid-cols-2 gap-1">
+                    {[
+                        { label: "Plain Text", value: "plaintext" },
+                        { label: "HTML", value: "html" },
+                        { label: "CSS", value: "css" },
+                        { label: "JavaScript", value: "js" },
+                        { label: "TypeScript", value: "ts" },
+                    ].map((lang) => (
+                        <Button
+                            key={lang.value}
+                            type="button"
+                            variant="ghost"
+                            size="sm"
+                            className="justify-start text-xs"
+                            onClick={() =>
+                                editor
+                                    .chain()
+                                    .focus()
+                                    .toggleCodeBlock({ language: lang.value })
+                                    .run()
+                            }
+                        >
+                            {lang.label}
+                        </Button>
+                    ))}
+                </PopoverContent>
+            </Popover>
+
+            {/* Inline Code */}
             <Button
                 type="button"
-                variant={editor.isActive("codeBlock") ? "secondary" : "ghost"}
+                variant={editor.isActive("code") ? "secondary" : "ghost"}
                 size="sm"
-                onClick={() => editor.chain().focus().toggleCodeBlock().run()}
+                onClick={() => editor.chain().focus().toggleCode().run()}
             >
-                <Code2 className="h-4 w-4" />
+                <Code className="h-4 w-4" />
             </Button>
 
-            <div className="h-6 border-l mx-1" />
+            <Separator orientation="vertical" className="h-6 mx-1" />
 
             {/* Links & Images */}
             <Button
@@ -195,24 +282,12 @@ export function Toolbar({ editor }: ToolbarProps) {
                 size="sm"
                 onClick={addImage}
             >
-                <Image className="h-4 w-4" />
+                <ImageIcon className="h-4 w-4" />
             </Button>
 
-            <div className="h-6 border-l mx-1" />
+            <Separator orientation="vertical" className="h-6 mx-1" />
 
-            {/* Code */}
-            <Button
-                type="button"
-                variant={editor.isActive("code") ? "secondary" : "ghost"}
-                size="sm"
-                onClick={() => editor.chain().focus().toggleCode().run()}
-            >
-                <Code className="h-4 w-4" />
-            </Button>
-
-            <div className="h-6 border-l mx-1" />
-
-            {/* Undo/Redo */}
+            {/* History */}
             <Button
                 type="button"
                 variant="ghost"
