@@ -4,6 +4,38 @@
 @import 'path-to/_keyframes-animations.scss'; */
 
 
+/* Syntax highlighting styles */
+.hljs {
+  background: #f8f8f8;
+  border-radius: 0.375rem;
+  padding: 1rem;
+}
+
+.dark .hljs {
+  background: #1e1e1e;
+}
+
+/* TipTap code block styling */
+.ProseMirror pre {
+  background: #f8f8f8;
+  border-radius: 0.375rem;
+  padding: 1rem;
+  margin: 0.5rem 0;
+}
+
+.dark .ProseMirror pre {
+  background: #1e1e1e;
+}
+
+.ProseMirror pre code {
+  color: inherit;
+  padding: 0;
+  background: none;
+  font-size: 0.8rem;
+}
+
+
+
 @custom-variant dark (&:is(.dark *));
 
 :root {
@@ -250,6 +282,7 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
