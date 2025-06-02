@@ -1,37 +1,30 @@
-"use client"
+"use client";
 
-import TiptapEditor from "@/components/modules/dashboard/blog/TiptapEditor"
-import { SimpleEditor } from "@/components/tiptap-templates/simple/simple-editor"
-import { useState } from "react"
+import BlogEditor from "@/components/modules/dashboard/blog/BlogEditor";
+import { useState } from "react";
 
-export default function CreateBlogPage() {
-    const [title, setTitle] = useState("");
-    const [content, setContent] = useState("");
+export default function WriteBlogPage() {
+  const [content, setContent] = useState("");
 
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault()
-        console.log({ title, content }) // send to your API
+  const handleSubmit = async () => {
+    const response = await fetch("/api/blogs", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ content }),
+    });
+
+    if (response.ok) {
+      alert("Blog saved!");
     }
+  };
 
-    return (
-        // <SimpleEditor />
-        <form onSubmit={handleSubmit} className="max-w-3xl mx-auto space-y-4 p-4">
-            <input
-                type="text"
-                placeholder="Blog Title"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                className="w-full px-4 py-2 border rounded"
-            />
-
-            <TiptapEditor content={content} onChange={setContent} />
-
-            <button
-                type="submit"
-                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-            >
-                Publish
-            </button>
-        </form>
-    )
+  return (
+    <div>
+      <h1 className="text-2xl font-bold mb-4">Write a Blog</h1>
+      <BlogEditor onChange={setContent} />
+      <button className="mt-4 bg-blue-600 text-white px-4 py-2 rounded" onClick={handleSubmit}>
+        Publish
+      </button>
+    </div>
+  );
 }
