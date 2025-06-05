@@ -4,13 +4,15 @@ import { useState } from "react";
 import BlogEditor from "@/components/modules/dashboard/blog/BlogEditor";
 import { Button } from "@/components/ui/button";
 import toast from 'react-hot-toast';
+import { createBlog } from "@/services/blog";
+// import BlogEditor from "@/components/test/BlogEditor";
 
 interface BlogContent {
     html: string;
     json?: any;
 }
 
-const WriteBlogPage = () => {
+const WriteBlogPage = ()  => {
     const [content, setContent] = useState<BlogContent>({ html: "" });
     const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -22,16 +24,17 @@ const WriteBlogPage = () => {
 
         setIsSubmitting(true);
 
+        const title = "hello world"
+        const data = {
+            title: "New Blog Post",
+            slug : title.toLowerCase().replace(/\s+/g, '-'),
+            content: content.html,
+        }
+
         try {
-            // Uncomment when ready to connect to your API
-            // const response = await fetch("/api/blogs", {
-            //   method: "POST",
-            //   headers: { "Content-Type": "application/json" },
-            //   body: JSON.stringify({ content }),
-            // });
-
-            // if (!response.ok) throw new Error("Failed to save blog");
-
+            
+            const res = await createBlog(data);
+            console.log(res);
             toast.success("Blog saved successfully!");
             console.log("Blog content:", content);
         } catch (error) {
@@ -46,9 +49,6 @@ const WriteBlogPage = () => {
         <div className="container mx-auto px-4 py-8 max-w-4xl">
             <header className="mb-8">
                 <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Write a New Blog Post</h1>
-                <p className="text-gray-600 dark:text-gray-400 mt-2">
-                    Share your knowledge and ideas with the world
-                </p>
             </header>
 
             <BlogEditor onChange={(html, json) => setContent({ html, json })} />
