@@ -1,10 +1,10 @@
 'use client'
 
 import { useState } from "react";
-import BlogEditor from "@/components/modules/dashboard/blog/BlogEditor";
 import { Button } from "@/components/ui/button";
 import toast from 'react-hot-toast';
 import { createBlog } from "@/services/blog";
+import BlogEditor from "@/components/modules/dashboard/blog/BlogEditor";
 // import BlogEditor from "@/components/test/BlogEditor";
 
 interface BlogContent {
@@ -12,7 +12,7 @@ interface BlogContent {
     json?: any;
 }
 
-const WriteBlogPage = ()  => {
+const WriteBlogPage = () => {
     const [content, setContent] = useState<BlogContent>({ html: "" });
     const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -27,14 +27,14 @@ const WriteBlogPage = ()  => {
         const title = "hello world"
         const data = {
             title: "New Blog Post",
-            slug : title.toLowerCase().replace(/\s+/g, '-'),
+            slug: title.toLowerCase().replace(/\s+/g, '-'),
             content: content.html,
         }
 
         try {
-            
-            const res = await createBlog(data);
-            console.log(res);
+
+            // const res = await createBlog(data);
+            // console.log(res);
             toast.success("Blog saved successfully!");
             console.log("Blog content:", content);
         } catch (error) {
@@ -47,11 +47,19 @@ const WriteBlogPage = ()  => {
 
     return (
         <div className="container mx-auto px-4 py-8 max-w-4xl">
-            <header className="mb-8">
+            {/* <header className="mb-8">
                 <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Write a New Blog Post</h1>
-            </header>
+            </header> */}
 
             <BlogEditor onChange={(html, json) => setContent({ html, json })} />
+
+            {/* <BlogEditor
+                onChange={(html, json) => console.log("Editor content:", html)}
+                onTitleChange={(title) => console.log("Title:", title)}
+                onCoverImageChange={(url) => console.log("Image URL:", url)}
+                initialTitle="My First Blog Post"
+            /> */}
+
 
             <div className="mt-6 flex justify-end">
                 <Button

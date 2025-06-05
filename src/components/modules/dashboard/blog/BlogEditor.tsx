@@ -72,17 +72,39 @@ export default function BlogEditor({ onChange, initialContent = "" }: BlogEditor
             attributes: {
                 class: "prose dark:prose-invert prose-sm sm:prose-base lg:prose-lg xl:prose-xl focus:outline-none min-h-[300px] p-4",
                 style: `
-          h1 { border-left: 4px solid #3b82f6; padding-left: 0.75rem; margin: 1rem 0; }
-          h2 { border-left: 3px solid #3b82f6; padding-left: 0.75rem; margin: 0.8rem 0; }
-          ul, ol { 
+        p {
+            margin: 0.75rem 0;
+            line-height: 1.6;
+        }
+        h1 { 
+            border-left: 4px solid #3b82f6; 
+            padding-left: 0.75rem; 
+            margin: 1rem 0; 
+        }
+        h2 { 
+            border-left: 3px solid #3b82f6; 
+            padding-left: 0.75rem; 
+            margin: 0.8rem 0;
+        }
+        h3 {
+            border-left: 2px solid #3b82f6;
+            padding-left: 0.75rem;
+            margin: 0.7rem 0;
+            font-weight: 600;
+        }
+        h4, h5, h6 {
+            margin: 0.6rem 0;
+            font-weight: 600;
+        }
+        ul, ol { 
             background-color: rgba(59, 130, 246, 0.05); 
             padding: 0.5rem 1.5rem; 
             border-radius: 0.5rem;
             margin: 0.5rem 0;
-          }
-          [data-text-align="center"] { text-align: center }
-          [data-text-align="right"] { text-align: right }
-          [data-text-align="justify"] { text-align: justify }
+        }
+            [data-text-align="center"] { text-align: center }
+            [data-text-align="right"] { text-align: right }
+            [data-text-align="justify"] { text-align: justify }
         `,
             },
         },

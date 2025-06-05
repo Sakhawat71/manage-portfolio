@@ -23,6 +23,7 @@ import {
     AlignCenter,
     AlignRight,
     AlignJustify,
+    Type,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -36,6 +37,13 @@ export function Toolbar({ editor }: ToolbarProps) {
     if (!editor) {
         return null;
     }
+
+    const isActive = (type: string, attributes?: any) => {
+        if (type === "textAlign") {
+            return editor.isActive({ textAlign: attributes?.alignment });
+        }
+        return editor.isActive(type, attributes);
+    };
 
     const addImage = () => {
         const url = window.prompt("Enter the URL of the image:");
@@ -112,7 +120,7 @@ export function Toolbar({ editor }: ToolbarProps) {
             <Separator orientation="vertical" className="h-6 mx-1" />
 
             {/* Headings */}
-            <Popover>
+            {/* <Popover>
                 <PopoverTrigger asChild>
                     <Button type="button" variant="ghost" size="sm">
                         <Heading1 className="h-4 w-4" />
@@ -141,7 +149,54 @@ export function Toolbar({ editor }: ToolbarProps) {
                         Heading 2
                     </Button>
                 </PopoverContent>
+            </Popover> */}
+
+            {/* Headings */}
+            <Popover>
+                <PopoverTrigger asChild>
+                    <Button
+                        type="button"
+                        variant={isActive("heading") ? "secondary" : "ghost"}
+                        size="sm"
+                    >
+                        <Type className="h-4 w-4" />
+                        <ChevronDown className="h-3 w-3 ml-1" />
+                    </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-48 p-2">
+                    <Button
+                        type="button"
+                        variant={isActive("heading", { level: 1 }) ? "secondary" : "ghost"}
+                        size="sm"
+                        className="w-full justify-start"
+                        onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
+                    >
+                        <Heading1 className="mr-2 h-4 w-4" />
+                        Heading 1
+                    </Button>
+                    <Button
+                        type="button"
+                        variant={isActive("heading", { level: 2 }) ? "secondary" : "ghost"}
+                        size="sm"
+                        className="w-full justify-start mt-1"
+                        onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
+                    >
+                        <Heading2 className="mr-2 h-4 w-4" />
+                        Heading 2
+                    </Button>
+                    <Button
+                        type="button"
+                        variant={!isActive("heading") ? "secondary" : "ghost"}
+                        size="sm"
+                        className="w-full justify-start mt-1"
+                        onClick={() => editor.chain().focus().setParagraph().run()}
+                    >
+                        <span className="mr-2 text-xs">¶</span>
+                        Paragraph
+                    </Button>
+                </PopoverContent>
             </Popover>
+
 
             {/* Text Alignment */}
             <Separator orientation="vertical" className="h-6 mx-1" />
