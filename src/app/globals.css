@@ -71,6 +71,19 @@
   list-style-type: decimal;
 }
 
+/* For the tags container */
+.tags-container {
+  @apply flex flex-wrap gap-2;
+}
+
+.tag-item {
+  @apply inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-800;
+}
+
+.tag-remove {
+  @apply ml-1.5 rounded-full hover:bg-gray-200;
+}
+
 /* Text alignment classes */
 .ProseMirror .tiptap-editor p[data-text-align="left"],
 .ProseMirror .tiptap-editor h1[data-text-align="left"],

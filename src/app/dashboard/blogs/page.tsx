@@ -4,7 +4,7 @@ import React from 'react';
 const BlogsPage = async () => {
 
     const blogs = await getBlogs();
-    console.log(blogs);
+    // console.log(blogs);
 
     return (
         <div>

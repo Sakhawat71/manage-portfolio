@@ -28,7 +28,7 @@ export function Toolbar({ editor }: ToolbarProps) {
         return editor.isActive(type, attributes);
     };
 
-    // ✅ Upload Image -> Cloudinary -> Insert in Editor
+    // Upload Image -> Cloudinary -> Insert in Editor
     const addImage = async () => {
         const fileInput = document.createElement("input");
         fileInput.type = "file";
@@ -40,7 +40,7 @@ export function Toolbar({ editor }: ToolbarProps) {
 
             const { url, error } = await uploadToCloudinary(file);
 
-            console.log(error);
+            // console.log(error);
 
             if (error) {
                 // alert("Image upload failed: " + error);

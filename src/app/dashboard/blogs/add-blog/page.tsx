@@ -6,7 +6,6 @@ import toast from 'react-hot-toast';
 import { createBlog } from "@/services/blog";
 import BlogEditor from "@/components/modules/dashboard/blog/BlogEditor";
 import { BlogMetaEditor } from "@/components/modules/dashboard/blog/BlogMetaEditor";
-// import BlogEditor from "@/components/test/BlogEditor";
 
 interface BlogContent {
     html: string;
@@ -28,7 +27,7 @@ const WriteBlogPage = () => {
         }
         setIsSubmitting(true);
 
-        const {title,tags} = blogMeta;
+        const { title, tags } = blogMeta;
         const data = {
             title,
             tags,
@@ -38,11 +37,14 @@ const WriteBlogPage = () => {
         }
 
         try {
-
-            // const res = await createBlog(data);
+            const res = await createBlog(data);
             // console.log(res);
-            toast.success("Blog saved successfully!");
-            console.log("Blog content:", data);
+            if(res.success){
+                toast.success(res.message);
+            }else{
+                toast.error(res.message)
+            }
+            // console.log("Blog content:", data);
         } catch (error) {
             toast.error("Failed to save blog. Please try again.");
             console.error("Error saving blog:", error);

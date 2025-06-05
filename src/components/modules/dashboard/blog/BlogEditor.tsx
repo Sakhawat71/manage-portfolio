@@ -127,7 +127,7 @@ export default function BlogEditor({ onChange, initialContent = "" }: BlogEditor
 
             {/* Editor */}
             <div className="border rounded-lg overflow-hidden shadow-sm bg-white dark:bg-gray-900">
-                <EditorContent editor={editor} />
+                <EditorContent editor={editor} placeholder="inter" />
             </div>
 
             {/* Tip */}
