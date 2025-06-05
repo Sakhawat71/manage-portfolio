@@ -21,7 +21,6 @@ const WriteBlogPage = () => {
             toast.error("Blog content cannot be empty");
             return;
         }
-
         setIsSubmitting(true);
 
         const title = "hello world"
@@ -47,20 +46,7 @@ const WriteBlogPage = () => {
 
     return (
         <div className="container mx-auto px-0 py-2 max-w-5xl">
-            {/* <header className="mb-8">
-                <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Write a New Blog Post</h1>
-            </header> */}
-
             <BlogEditor onChange={(html, json) => setContent({ html, json })} />
-
-            {/* <BlogEditor
-                onChange={(html, json) => console.log("Editor content:", html)}
-                onTitleChange={(title) => console.log("Title:", title)}
-                onCoverImageChange={(url) => console.log("Image URL:", url)}
-                initialTitle="My First Blog Post"
-            /> */}
-
-
             <div className="mt-6 flex justify-end">
                 <Button
                     onClick={handleSubmit}
