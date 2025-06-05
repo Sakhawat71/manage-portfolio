@@ -46,7 +46,7 @@ const WriteBlogPage = () => {
     };
 
     return (
-        <div className="container mx-auto px-4 py-8 max-w-4xl">
+        <div className="container mx-auto px-0 py-2 max-w-5xl">
             {/* <header className="mb-8">
                 <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Write a New Blog Post</h1>
             </header> */}

@@ -119,16 +119,22 @@ export default function BlogEditor({ onChange, initialContent = "" }: BlogEditor
     }
 
     return (
-        <div className="space-y-4">
-            <Toolbar editor={editor} />
+        <div className="space-y-2">
+            {/* Sticky Toolbar */}
+            <div className="sticky top-0 z-50 bg-white dark:bg-gray-900 border-b">
+                <Toolbar editor={editor} />
+            </div>
 
+            {/* Editor */}
             <div className="border rounded-lg overflow-hidden shadow-sm bg-white dark:bg-gray-900">
                 <EditorContent editor={editor} />
             </div>
 
+            {/* Tip */}
             <div className="text-xs text-gray-500 dark:text-gray-400">
                 Tip: Use Markdown shortcuts (## for heading, **bold**, etc.) for faster writing
             </div>
         </div>
+
     );
 }

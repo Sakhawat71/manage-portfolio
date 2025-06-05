@@ -41,6 +41,13 @@
   color: inherit;
 }
 
+.ProseMirror img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 1rem auto;
+}
+
 .ProseMirror h2 {
   font-size: 1.5em;
   font-weight: bold;
@@ -50,7 +57,7 @@
 }
 
 /* Improved list styles */
-.ProseMirror ul, 
+.ProseMirror ul,
 .ProseMirror ol {
   padding: 0 1rem;
   margin: 0.5rem 0;
