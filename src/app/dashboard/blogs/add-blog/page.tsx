@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import toast from 'react-hot-toast';
 import { createBlog } from "@/services/blog";
 import BlogEditor from "@/components/modules/dashboard/blog/BlogEditor";
+import { BlogMetaEditor } from "@/components/modules/dashboard/blog/BlogMetaEditor";
 // import BlogEditor from "@/components/test/BlogEditor";
 
 interface BlogContent {
@@ -15,6 +16,10 @@ interface BlogContent {
 const WriteBlogPage = () => {
     const [content, setContent] = useState<BlogContent>({ html: "" });
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [blogMeta, setBlogMeta] = useState<{ title: string; tags: string[] }>({
+        title: "",
+        tags: [],
+    });
 
     const handleSubmit = async () => {
         if (!content.html || content.html === "<p></p>") {
@@ -23,11 +28,13 @@ const WriteBlogPage = () => {
         }
         setIsSubmitting(true);
 
-        const title = "hello world"
+        const {title,tags} = blogMeta;
         const data = {
-            title: "New Blog Post",
+            title,
+            tags,
             slug: title.toLowerCase().replace(/\s+/g, '-'),
-            content: content.html,
+            contentHtml: content.html,
+            contentJson: content.json,
         }
 
         try {
@@ -35,7 +42,7 @@ const WriteBlogPage = () => {
             // const res = await createBlog(data);
             // console.log(res);
             toast.success("Blog saved successfully!");
-            console.log("Blog content:", content);
+            console.log("Blog content:", data);
         } catch (error) {
             toast.error("Failed to save blog. Please try again.");
             console.error("Error saving blog:", error);
@@ -46,7 +53,14 @@ const WriteBlogPage = () => {
 
     return (
         <div className="container mx-auto px-0 py-2 max-w-5xl">
-            <BlogEditor onChange={(html, json) => setContent({ html, json })} />
+            <BlogMetaEditor
+                onChange={setBlogMeta}
+            />
+
+            <BlogEditor
+                onChange={(html, json) => setContent({ html, json })}
+            />
+
             <div className="mt-6 flex justify-end">
                 <Button
                     onClick={handleSubmit}
