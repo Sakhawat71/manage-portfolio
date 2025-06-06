@@ -1,13 +1,12 @@
+import HomeComponent from '@/components/modules/home/HomeComponent';
 import Navbar from '@/components/shared/Navbar';
-import { Button } from '@/components/ui/button';
 import React from 'react';
 
 const HomePage = () => {
     return (
         <div>
             <Navbar />
-            <h1>Welcome to Home</h1>
-            <Button> Click </Button>
+            <HomeComponent />
         </div>
     );
 };
