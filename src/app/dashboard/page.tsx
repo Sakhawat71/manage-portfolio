@@ -1,18 +1,9 @@
-import { getCurrentUser } from "@/services/auth";
-// import { useRouter } from "next/navigation";
-
+import DashboardComponent from "@/components/modules/dashboard/Dashboard";
 
 const DeshboardPage = async () => {
-    // const router = useRouter();
-    const user = await getCurrentUser();
-    // if(!user){
-    //     router.push('/')
-    // }
-    // console.log(user);
-
     return (
         <div>
-            welcome {user?.email}
+            <DashboardComponent />
         </div>
     );
 };

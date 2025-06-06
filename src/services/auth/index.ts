@@ -44,3 +44,20 @@ export const logoutUser = async () => {
     }
 };
 
+
+export const getStatistics = async () => {
+    try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/api/auth/statistics`, {
+            method: "GET",
+            cache: "no-store",
+        });
+
+        if (!res.ok) {
+            throw new Error("Failed to fetch blogs");
+        }
+
+        return await res.json();
+    } catch (error) {
+        console.log(error);
+    }
+};
