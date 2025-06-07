@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { TProjectFormData } from "@/types/project.type";
 import { TagsInput } from "@/components/ui/TagsInput";
 import { Textarea } from "@/components/ui/textarea";
+import toast from "react-hot-toast";
 
 interface ProjectFormProps {
     onSubmit: (data: TProjectFormData) => Promise<void>;
@@ -17,7 +18,6 @@ export function ProjectForm({ onSubmit, initialData }: ProjectFormProps) {
     const {
         register,
         handleSubmit,
-        control,
         setValue,
         watch,
         formState: { errors, isSubmitting },
@@ -35,9 +35,9 @@ export function ProjectForm({ onSubmit, initialData }: ProjectFormProps) {
     const onSubmitHandler: SubmitHandler<TProjectFormData> = async (data) => {
         try {
             await onSubmit(data);
-
         } catch (error) {
-
+            console.log(error);
+            toast.error((error instanceof Error ? error.message : 'An error occurred while submitting'))
         }
     };
 
@@ -69,9 +69,18 @@ export function ProjectForm({ onSubmit, initialData }: ProjectFormProps) {
                     <Input
                         id="image"
                         type="file"
-                        className="bg-white"
+                        className="bg-background"
                         accept="image/*"
-                        {...register("image", { required: "Image is required" })}
+                        {...register("image", {
+                            required: "Image is required",
+                            validate: {
+                                fileSize: (value: FileList | null) =>
+                                    !value || !value[0] || value[0].size < 5 * 1024 * 1024 || "File must be under 5MB",
+                                fileType: (value: FileList | null) =>
+                                    !value || !value[0] || ["image/jpeg", "image/png", "image/webp", "image/gif"].includes(value[0].type) ||
+                                    "Only JPG, PNG, WEBP, or GIF allowed",
+                            },
+                        })}
                     />
                     {errors.image && (
                         <p className="text-sm text-destructive">{errors.image.message}</p>
@@ -89,10 +98,10 @@ export function ProjectForm({ onSubmit, initialData }: ProjectFormProps) {
                         className="bg-white"
                         {...register("liveUrl", {
                             required: "Live URL is required",
-                            pattern: {
-                                value: /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/,
-                                message: "Please enter a valid URL",
-                            },
+                            // pattern: {
+                            //     value: /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/,
+                            //     message: "Please enter a valid URL",
+                            // },
                         })}
                         placeholder="https://example.com"
                     />
@@ -110,10 +119,10 @@ export function ProjectForm({ onSubmit, initialData }: ProjectFormProps) {
                         className="bg-white"
                         {...register("githubUrl", {
                             required: "GitHub URL is required",
-                            pattern: {
-                                value: /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/,
-                                message: "Please enter a valid URL",
-                            },
+                            // pattern: {
+                            //     value: /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/,
+                            //     message: "Please enter a valid URL",
+                            // },
                         })}
                         placeholder="https://github.com/username/repo"
                     />

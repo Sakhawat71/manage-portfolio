@@ -1,43 +1,40 @@
 "use client";
 import { TProjectFormData } from "@/types/project.type";
 import { ProjectForm } from "@/components/modules/dashboard/projects/ProjectForm";
-// import { useState } from "react";
+import toast from "react-hot-toast";
+import { createProject } from "@/services/project";
 
 
 export default function AddProjectPage() {
-    // const [setSubmissionStatus] = useState<{
-    //     success: boolean;
-    //     message: string;
-    // } | null>(null);
 
     const handleSubmit = async (data: TProjectFormData) => {
         try {
-            // Create FormData to handle file upload
             const formData = new FormData();
-            formData.append("title", data.title);
-            formData.append("description", data.description);
-            formData.append("techStack", JSON.stringify(data.techStack));
-            formData.append("liveUrl", data.liveUrl);
-            formData.append("githubUrl", data.githubUrl);
 
+            // Create the text object
+            const textData = {
+                title: data.title,
+                description: data.description,
+                techStack: data.techStack,
+                liveUrl: data.liveUrl,
+                githubUrl: data.githubUrl,
+            };
+
+            formData.append("data", JSON.stringify(textData));
             if (data.image && data.image[0]) {
                 formData.append("image", data.image[0]);
             }
 
-            // Send to your API route
-            // const response = await fetch("/api/projects", {
-            //     method: "POST",
-            //     body: formData,
-            // });
-
-            // if (!response.ok) {
-            //     throw new Error("Failed to submit project");
-            // }
-            console.log(data);
+            const res = await createProject(formData);
+            console.log(res);
+            toast.success(res.message);
         } catch (error) {
             console.error("Submission error:", error);
+            toast.error("Failed to submit project");
         }
     };
+
+
 
     return (
         <div className="container mx-auto px-4 py-8">
