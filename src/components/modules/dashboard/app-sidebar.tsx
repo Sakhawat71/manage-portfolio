@@ -31,7 +31,7 @@ export const navData = [
         collapsible: true,
         items: [
             { label: "Projects", href: "/dashboard/projects" },
-            { label: "Add Project", href: "/dashboard/projects/add" },
+            { label: "Add Project", href: "/dashboard/projects/add-project" },
         ],
     },
     {
@@ -39,7 +39,7 @@ export const navData = [
         collapsible: true,
         items: [
             { label: "Skills", href: "/dashboard/skills" },
-            { label: "Add Skills", href: "/dashboard/skills/add" },
+            { label: "Add Skills", href: "/dashboard/skills/add-skill" },
         ],
     },
     {
@@ -55,7 +55,7 @@ export const navData = [
         collapsible: true,
         items: [
             { label: "Educations", href: "/dashboard/educations" },
-            { label: "Add Educations", href: "/dashboard/educations/add" },
+            { label: "Add Educations", href: "/dashboard/educations/add-education" },
         ],
     },
     {
@@ -63,7 +63,7 @@ export const navData = [
         collapsible: true,
         items: [
             { label: "Experiences", href: "/dashboard/experiences" },
-            { label: "Add Experiences", href: "/dashboard/experiences/add" },
+            { label: "Add Experiences", href: "/dashboard/experiences/add-experience" },
         ],
     },
 ]
