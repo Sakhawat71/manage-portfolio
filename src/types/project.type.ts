@@ -5,6 +5,11 @@ export type TProjectFormData = {
     liveUrl: string;
     githubUrl: string;
     image: FileList | null;
+    isTeam: boolean,
+    teamSize: number | undefined,
+    roleInTeam: string,
+    startDate: Date | undefined,
+    endDate: Date | undefined,
 };
 
 export type TProjectData = {

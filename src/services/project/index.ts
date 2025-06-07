@@ -17,6 +17,7 @@ export const getAllProjects = async () => {
     }
 };
 
+
 export const createProject = async (payload: any) => {
     try {
         const token = (await cookies()).get("accessToken")?.value;
@@ -30,39 +31,13 @@ export const createProject = async (payload: any) => {
                 body: payload,
             }
         );
-
-        if (!res.ok) {
-            throw new Error("Failed to create project");
-        }
-
+        // console.log('res in serveice',res);
+        // if (!res.ok) {
+        //     throw new Error("Failed to create project");
+        // }
         return await res.json();
     } catch (error) {
         console.error("Add project error:", error);
         throw error;
     }
 };
-
-
-// export const createProject = async (formData: FormData) => {
-//     try {
-//         const token = (await cookies())?.get("accessToken")?.value;
-
-//         const headers: Record<string, string> = {};
-//         if (token) headers["Authorization"] = token;
-
-//         const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/api/projects/create-project`, {
-//             method: "POST",
-//             headers,
-//             body: formData,
-//         });
-
-//         if (!res.ok) {
-//             throw new Error("Failed to create project");
-//         }
-
-//         return await res.json();
-//     } catch (error) {
-//         console.error("Add project error:", error);
-//         throw error;
-//     }
-// };

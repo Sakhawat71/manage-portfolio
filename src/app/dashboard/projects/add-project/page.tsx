@@ -10,15 +10,20 @@ export default function AddProjectPage() {
     const handleSubmit = async (data: TProjectFormData) => {
         try {
             const formData = new FormData();
-
-            // Create the text object
             const textData = {
                 title: data.title,
                 description: data.description,
                 techStack: data.techStack,
                 liveUrl: data.liveUrl,
                 githubUrl: data.githubUrl,
+                isTeam: data.isTeam,
+                teamSize: Number(data.teamSize),
+                roleInTeam: data.roleInTeam,
+                startDate: data.startDate,
+                endDate: data.endDate
             };
+
+            // console.log('textData', textData);
 
             formData.append("data", JSON.stringify(textData));
             if (data.image && data.image[0]) {
@@ -26,11 +31,16 @@ export default function AddProjectPage() {
             }
 
             const res = await createProject(formData);
-            console.log(res);
-            toast.success(res.message);
+            // console.log(res);
+            if (res.success) {
+                toast.success(res.message);
+            } else {
+                // toast.error(`${res.meta.target} should be unique` || 'Failed to create project');
+                toast.error(res.message)
+            }
         } catch (error) {
             console.error("Submission error:", error);
-            toast.error("Failed to submit project");
+            toast.error(error instanceof Error ? error.message : "Failed to submit project");
         }
     };
 
