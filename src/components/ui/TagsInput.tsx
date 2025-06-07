@@ -26,7 +26,7 @@ export function TagsInput({
     };
 
     return (
-        <div className="border rounded-lg p-2 bg-background">
+        <div className="border rounded-lg p-1 bg-background">
             <div className="flex flex-wrap gap-2 mb-2">
                 {value.map((tag) => (
                     <Badge key={tag} variant="secondary" className="px-3 py-1 text-sm">
