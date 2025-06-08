@@ -5,6 +5,7 @@ import { createEducation } from '@/services/education';
 import { TEducationForm } from '@/types/education.type';
 import toast from 'react-hot-toast';
 
+
 const CreateEducationPage = () => {
     const handleSubmit = async (data: TEducationForm) => {
         try {
