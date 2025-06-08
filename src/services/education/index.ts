@@ -36,4 +36,4 @@ export const createEducation = async (payload: TEducationForm) => {
     } catch (error: any) {
         return Error(error);
     }
-}
+};
